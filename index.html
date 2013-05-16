@@ -1,46 +1,166 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link href="https://fonts.googleapis.com/css?family=Chivo:900" rel="stylesheet"
+      type="text/css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <title>S-CAN : Portable software CAN 2.0B Controller implemented in ANSI C by Yahia-Mohammad</title>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
+    <title>S-CAN : Portable software CAN 2.0B Controller implemented in ANSI C
+      by Yahia-Mohammad</title>
   </head>
-
   <body>
     <div id="container">
       <div class="inner">
-
         <header>
-          <h1>S-CAN : Portable software CAN 2.0B Controller implemented in ANSI C</h1>
+          <h1>S-CAN : Portable software CAN 2.0B Controller implemented in ANSI
+            C</h1>
           <h2></h2>
         </header>
-
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/Yahia-Mohammad" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
+        <section id="downloads" class="clearfix"> <a href="https://github.com/Yahia-Mohammad"
+            id="view-on-github" class="button"><span>View on GitHub</span></a> </section>
         <hr>
-
         <section id="main_content">
-          <p>Overview - Motivation
-Code, bit timing and portability
-Simulation
-Progress and TODO
-References</p>
+          <p><span style="font-weight: bold;">Overview :</span></p>
+          <p>
+          </p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3"><b>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> S</span>-<span
+                  style="font-weight: bold;">CAN</span></b>
+              (“<span style="font-weight: bold;">S</span>oftware <span style="font-weight: bold;">CAN</span>”)is
+              planned to be a complete
+              portable software implementation of CAN 2.0B bus controller
+              written
+              in ANSI C. The software should remove the need to any external –
+              or
+              integral – hardware CAN controller, on the expenses of lower
+              bandwidth. However, A node will still need a separate bus driver.</font></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3"><br>
+            </font></p>
+          <p style="margin-bottom: 0in" align="LEFT"><span style="font-weight: bold;">Motivation
+              :</span></p>
+          <p style="margin-bottom: 0in" align="LEFT"><font size="4"><font size="3"><span
+                  style="font-weight: normal"><span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+                    </span>The
+                  main motivation to write this software is learning and
+                  practicing.
+                  This software is not meant to – and can not, TBH&nbsp; - be a
+                  competitive replacement for hardware controllers, which are
+                  available
+                  from various vendors in different packages, features, and
+                  cheap
+                  prices. This being said, this doesn't mean that this software
+                  can't
+                  be useful in a way or two. This software can be deployed in a
+                  simulator to simulate CAN controllers functionality.</span></font></font></p>
+          <p style="margin-bottom: 0in" align="LEFT"><font size="4"><font size="3"><span
+                  style="font-weight: normal"><br>
+                </span></font></font></p>
+          <p>
+          </p>
+          <p style="margin-bottom: 0in" align="LEFT"><span style="font-weight: bold;"><font
+                size="4">Code, Timing
+                and Portability :</font></span></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3">&nbsp;&nbsp;&nbsp; The
+              code is written in ANSI C (aka C89) to guarantee maximum
+              portability.
+              In general, the code is optimized for speed over space, and it's
+              written for 32-bit MCUs (LPC2148's ARM7DTMI core). C language
+              features whose performance and behavior of generated code are
+              affected greatly by the CPU and compiler being used, like bit
+              fields
+              structures : are not permitted.</font></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><br>
+          </p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3"> Time
+              critical parts of the code are moved to interrupt service routines
+              ISRs. An example of this type is when a response is needed the
+              very
+              next bit, and this response depends on the sample value of the
+              current bit. According to CAN standards : sampling take place in
+              somewhere in middle of the bit nominal time duration, so a
+              response needs to be
+              ready in a small portion of this duration. Such constrains are the
+              main source of slow-down and limitations of the maximum bandwidth.</font></p>
+          <p> </p>
+          <p><span style="font-weight: bold;">Simulation :</span></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3">&nbsp;&nbsp;&nbsp; Not
+              a chance ! ... at
+              first, LabCenter Electronics's 'proteus' was a good candidate for
+              a
+              primary simulation software. The plan was to use PIC18F485 (with
+              embedded CAN controller)as a node, while our software runs on
+              another
+              MCU (LPC2148). Proteus didn't have any CAN bus driver IC, so a
+              workaround was to use a third MCU operated with the highest
+              possible
+              frequency that receives Tx pins from both MCUs, Ores them, then
+              output them back to Rx pins. However, the simulation was stopped
+              forever when I discovered that proteus misleading description
+              about
+              its support of PIC18 CAN module wasn't about functionality, rather
+              it
+              was only about accessing registers. </font>
+          </p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><br>
+          </p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3">So,
+              until I find new options, simulation is not planned, and I'll have
+              to
+              sit up a real CAN network to start testing the code.</font></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3"><br>
+            </font></p>
+          <p style="margin-bottom: 0in" align="LEFT"><span style="font-weight: bold;"><font
+                size="4">Completion
+                State :</font></span></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3">&nbsp;&nbsp;&nbsp; The
+              code now should – hopefully – be able to synchronize (both hard
+              and soft re-sync), receive standard or extended data frames,
+              receive
+              remote frames, calculate and check CRC, detect errors in reception
+              process and generate error frames accordingly.</font></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3"><br>
+            </font></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3"> &nbsp;&nbsp;&nbsp; Things
+              we still have to do : implementing the functionality of :
+              transmission, generation and responding to overload frames, a
+              decent
+              interface (either APIs or SPI), and complete and enhance error
+              detection and confinement.</font></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3"><br>
+            </font></p>
+          <p style="margin-bottom: 0in; font-weight: normal" align="LEFT"><font
+              size="3">&nbsp;&nbsp;&nbsp; The
+              HAL layer and MCU dependent code is kept clear, with comments to
+              clarify what they're expected to do.</font></p>
+          <p><span style="font-weight: bold;"><br>
+            </span></p>
+          <p><span style="font-weight: bold;">References : <br>
+            </span>1. CAN 2.0 Specifications, By BOSCH.<br>
+            2. Application Note (AN 1798) : CAN Bit Timing Requirements,
+            Freescale.<br>
+            3. Introduction to Controller Area Network(CAN), Texas Instruments.<br>
+            4. Understanding Microchip’s CAN Module Bit Timing, Microchip.<br>
+            5. Cyclic Redundancy Check (CRC), Microchip.<span style="font-weight: bold;"><br>
+            </span></p>
         </section>
-
-        <footer>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-        
+        <footer> This page was generated by <a href="http://pages.github.com">GitHub
+            Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason
+            Long</a>. </footer>
       </div>
     </div>
   </body>
