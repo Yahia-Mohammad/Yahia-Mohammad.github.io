@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.myvodafoneapp",
+    "sha256_cert_fingerprints":
+    ["4E:BA:DC:92:55:C5:40:F8:E4:3E:75:C6:9A:BF:CC:30:00:F6:DA:F9:89:28:AB:73:67:2F:4F:24:8F:A3:EB:E9"]
+  }
+}]
